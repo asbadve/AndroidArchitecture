@@ -23,12 +23,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public abstract class NetworkBoundResource<ResultType, RequestType> {
-    private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
+    protected final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
     @MainThread
     NetworkBoundResource() {
@@ -44,22 +46,39 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
         });
     }
 
-    private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
+    protected void fetchFromNetwork(final LiveData<ResultType> dbSource) {
         result.addSource(dbSource, newData -> result.setValue(Resource.loading(newData)));
-        createCall().enqueue(new Callback<RequestType>() {
-            @Override
-            public void onResponse(Call<RequestType> call, Response<RequestType> response) {
-                result.removeSource(dbSource);
-                saveResultAndReInit(response.body());
-            }
+        Observable<RequestType> call = createCall();
+        if (call==null){
+            return;
+        }
+        call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RequestType>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onFailure(Call<RequestType> call, Throwable t) {
-                onFetchFailed();
-                result.removeSource(dbSource);
-                result.addSource(dbSource, newData -> result.setValue(Resource.error(t.getMessage(), newData)));
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(RequestType requestType) {
+                        saveResultAndReInit(requestType);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onFetchFailed();
+                        result.removeSource(dbSource);
+                        result.addSource(dbSource, newData -> result.setValue(Resource.error(e.getMessage(), newData)));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        result.removeSource(dbSource);
+                    }
+                });
+
     }
 
     @MainThread
@@ -93,7 +112,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     @NonNull
     @MainThread
-    protected abstract Call<RequestType> createCall();
+    protected abstract Observable<RequestType> createCall();
 
     @MainThread
     protected void onFetchFailed() {

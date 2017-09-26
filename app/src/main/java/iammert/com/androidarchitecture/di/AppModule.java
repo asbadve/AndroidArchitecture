@@ -18,6 +18,7 @@ import iammert.com.androidarchitecture.data.remote.RequestInterceptor;
 import iammert.com.androidarchitecture.viewmodel.MovieViewModelFactory;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -42,6 +43,7 @@ public class AppModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstants.ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
 

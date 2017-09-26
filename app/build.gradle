@@ -50,6 +50,11 @@ dependencies {
     compile rootProject.ext.okhttp
     compile rootProject.ext.retrofit
     compile rootProject.ext.gsonConverter
+    compile rootProject.ext.rxjava2Adapter
+    compile rootProject.ext.rxjava
+    compile rootProject.ext.rxAndroid
+
+
 
     //dagger
     annotationProcessor rootProject.ext.daggerCompiler
@@ -57,6 +62,7 @@ dependencies {
     compile rootProject.ext.daggerAndroid
     compile rootProject.ext.daggerAndroidSupport
     annotationProcessor rootProject.ext.daggerAndroidProcessor
+
 
     //ui
     compile rootProject.ext.picasso

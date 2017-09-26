@@ -40,9 +40,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
                         android:singleLine="true"
                         android:text="@{movie.originalTitle}"
-                        android:layout_marginRight="16dp"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/textSizeExtraLarge"
                         android:textStyle="bold" />
@@ -80,7 +80,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_language_green_24dp" />
+                            android:src="@drawable/placeholder" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_stars_green_24dp" />
+                            android:src="@drawable/placeholder" />
 
                         <TextView
                             android:layout_width="wrap_content"

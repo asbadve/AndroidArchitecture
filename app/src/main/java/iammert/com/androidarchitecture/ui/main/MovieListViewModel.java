@@ -20,7 +20,8 @@ public class MovieListViewModel extends ViewModel {
 
     @Inject
     public MovieListViewModel(MovieRepository movieRepository) {
-        popularMovies = movieRepository.loadPopularMovies();
+//        popularMovies = movieRepository.loadPopularMovies();
+        popularMovies = movieRepository.loadPopularMoviesByPage();
     }
 
     LiveData<Resource<List<MovieEntity>>> getPopularMovies() {
