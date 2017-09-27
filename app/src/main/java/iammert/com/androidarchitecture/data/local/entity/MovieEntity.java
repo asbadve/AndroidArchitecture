@@ -42,6 +42,17 @@ public class MovieEntity {
     @SerializedName("original_language")
     private String originalLanguage;
 
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    @SerializedName("release_date")
+    private String releaseDate;
+
     private boolean isPopular;
 
     private boolean isNowPlaying;

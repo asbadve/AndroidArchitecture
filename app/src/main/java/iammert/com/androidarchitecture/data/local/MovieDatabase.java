@@ -9,8 +9,8 @@ import iammert.com.androidarchitecture.data.local.entity.MovieEntity;
 /**
  * Created by mertsimsek on 19/05/2017.
  */
-@Database(entities = {MovieEntity.class}, version = 3,exportSchema = false)
-public abstract class MovieDatabase extends RoomDatabase{
+@Database(entities = {MovieEntity.class}, version = 4, exportSchema = false)
+public abstract class MovieDatabase extends RoomDatabase {
 
     public abstract MovieDao movieDao();
 }

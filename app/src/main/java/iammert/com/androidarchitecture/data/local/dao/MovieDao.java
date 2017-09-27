@@ -61,8 +61,8 @@ public abstract class MovieDao {
      * @param originalLanguage
      * @param isNowPlaying
      */
-    @Query("UPDATE movies SET posterPath=:posterPath,adult=:adult,overview=:overview,originalTitle=:originalTitle,title=:title,voteCount=:voteCount,voteAverage=:voteAverage,backdropPath=:backdropPath,originalLanguage=:originalLanguage,isNowPlaying=:isNowPlaying WHERE id=:id")
-    public abstract void updateIsNowPlayingMovie(String posterPath, boolean adult, String overview, String originalTitle, String title, int voteCount, double voteAverage, String backdropPath, String originalLanguage, boolean isNowPlaying, int id);
+    @Query("UPDATE movies SET posterPath=:posterPath,adult=:adult,overview=:overview,originalTitle=:originalTitle,title=:title,voteCount=:voteCount,voteAverage=:voteAverage,backdropPath=:backdropPath,originalLanguage=:originalLanguage,isNowPlaying=:isNowPlaying,releaseDate=:releaseDate WHERE id=:id")
+    public abstract void updateIsNowPlayingMovie(String posterPath, boolean adult, String overview, String originalTitle, String title, int voteCount, double voteAverage, String backdropPath, String originalLanguage, boolean isNowPlaying, String releaseDate, int id);
 
 
     /***
@@ -78,8 +78,8 @@ public abstract class MovieDao {
      * @param originalLanguage
      * @param isPopular
      */
-    @Query("UPDATE movies SET posterPath=:posterPath,adult=:adult,overview=:overview,originalTitle=:originalTitle,title=:title,voteCount=:voteCount,voteAverage=:voteAverage,backdropPath=:backdropPath,originalLanguage=:originalLanguage,isPopular=:isPopular WHERE id=:id")
-    public abstract void updateIsPopularMovie(String posterPath, boolean adult, String overview, String originalTitle, String title, int voteCount, double voteAverage, String backdropPath, String originalLanguage, boolean isPopular, int id);
+    @Query("UPDATE movies SET posterPath=:posterPath,adult=:adult,overview=:overview,originalTitle=:originalTitle,title=:title,voteCount=:voteCount,voteAverage=:voteAverage,backdropPath=:backdropPath,originalLanguage=:originalLanguage,isPopular=:isPopular,releaseDate=:releaseDate WHERE id=:id")
+    public abstract void updateIsPopularMovie(String posterPath, boolean adult, String overview, String originalTitle, String title, int voteCount, double voteAverage, String backdropPath, String originalLanguage, boolean isPopular, String releaseDate, int id);
 
     @Query("SELECT * FROM movies WHERE id=:id")
     public abstract LiveData<MovieEntity> getMovie(int id);
@@ -118,6 +118,7 @@ public abstract class MovieDao {
                                     movieEntity.getBackdropPath(),
                                     movieEntity.getOriginalLanguage(),
                                     true,
+                                    movieEntity.getReleaseDate(),
                                     id
                             );
                         } else {
@@ -145,6 +146,7 @@ public abstract class MovieDao {
                                     movieEntity.getBackdropPath(),
                                     movieEntity.getOriginalLanguage(),
                                     true,
+                                    movieEntity.getReleaseDate(),
                                     id);
                         } else {
                             movieEntity.setPopular(true);
