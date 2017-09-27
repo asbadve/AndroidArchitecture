@@ -46,6 +46,9 @@ public abstract class NetworkPageBoundResource<ResultType, RequestType extends R
 
     @MainThread
     private void saveResultAndReInit(List<RequestType> response) {
+        if (response == null) {
+            return;
+        }
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -93,8 +96,6 @@ public abstract class NetworkPageBoundResource<ResultType, RequestType extends R
     protected abstract void saveNextPageIndex(int pageIndexToSave);
 
     protected abstract int getPageLimit();
-
-    protected abstract void onNextPageLoad(CombineClass<RequestType> testObject);
 
 
     protected abstract Observable<RequestType> getPagedObservable(int nextPageToFetch);
@@ -170,8 +171,11 @@ public abstract class NetworkPageBoundResource<ResultType, RequestType extends R
             @Override
             public void accept(CombineClass testObject, Throwable throwable) throws Exception {
 //                        Log.d(TAG, "accept() called with: testObject = [" + testObject + "], throwable = [" + throwable + "]");
+                if (testObject == null) {
+                    return;
+                }
                 saveResultAndReInit(testObject.getList());
-                onNextPageLoad(testObject);
+//                onNextPageLoad(testObject);
 
             }
         });

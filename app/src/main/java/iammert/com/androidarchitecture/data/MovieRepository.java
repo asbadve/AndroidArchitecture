@@ -2,7 +2,6 @@ package iammert.com.androidarchitecture.data;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.List;
 
@@ -37,13 +36,15 @@ public class MovieRepository {
             @Override
             protected void saveCallResult(@NonNull MoviesResponse item) {
                 currentPage = item.getPage();
-                movieDao.saveMovies(item.getResults());
+//                movieDao.saveMovies(item.getResults());
+                movieDao.insertOrUpdateTransaction(item.getResults(), MovieDao.POPULAR_MOVIES);
+
             }
 
             @NonNull
             @Override
             protected LiveData<List<MovieEntity>> loadFromDb() {
-                return movieDao.loadMovies();
+                return movieDao.loadPopularMovie();
             }
 
 
@@ -67,18 +68,72 @@ public class MovieRepository {
                 return 15;
             }
 
-            @Override
-            protected void onNextPageLoad(CombineClass<MoviesResponse> testObject) {
-                if (testObject != null) {
-                    List<MoviesResponse> list = testObject.getList();
-                    Log.d(TAG, "onNextPageLoad() called with: testObject = [" + testObject + "]");
-                }
-            }
+//            @Override
+//            protected void onNextPageLoad(CombineClass<MoviesResponse> testObject) {
+//                if (testObject != null) {
+//                    List<MoviesResponse> list = testObject.getList();
+//                    Log.d(TAG, "onNextPageLoad() called with: testObject = [" + testObject + "]");
+//                }
+//            }
 
 
             @Override
             protected Observable<MoviesResponse> getPagedObservable(int nextPageToFetch) {
                 return movieDBService.getPopularMoviesListAtPage(nextPageToFetch);
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<MovieEntity>>> loadNowPlayingMoviesByPage() {
+        return new NetworkPageBoundResource<List<MovieEntity>, MoviesResponse>() {
+
+
+            @Override
+            protected void saveCallResult(@NonNull MoviesResponse item) {
+                currentPage = item.getPage();
+//                movieDao.saveMovies(item.getResults());
+                movieDao.insertOrUpdateTransaction(item.getResults(), MovieDao.NOW_PLAYING);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<MovieEntity>> loadFromDb() {
+                return movieDao.loadNowPlayingMovies();
+            }
+
+
+            @Override
+            protected boolean takeUntil(MoviesResponse movie) {
+                return movie.takeUntil();
+            }
+
+            @Override
+            protected int getNextPageIndex() {
+                return currentPage + 1;
+            }
+
+            @Override
+            protected void saveNextPageIndex(int pageIndexToSave) {
+                //save to sf
+            }
+
+            @Override
+            protected int getPageLimit() {
+                return 15;
+            }
+
+//            @Override
+//            protected void onNextPageLoad(CombineClass<MoviesResponse> testObject) {
+//                if (testObject != null) {
+//                    List<MoviesResponse> list = testObject.getList();
+//                    Log.d(TAG, "onNextPageLoad() called with: testObject = [" + testObject + "]");
+//                }
+//            }
+
+
+            @Override
+            protected Observable<MoviesResponse> getPagedObservable(int nextPageToFetch) {
+                return movieDBService.getNowPlayingMoviesListAtPage(nextPageToFetch);
             }
         }.getAsLiveData();
     }

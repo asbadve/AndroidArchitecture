@@ -3,6 +3,8 @@ package iammert.com.androidarchitecture;
 import android.app.Activity;
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -23,6 +25,8 @@ public class AAApp extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
         initializeComponent();
+        Stetho.initializeWithDefaults(this);
+
     }
 
     private void initializeComponent() {

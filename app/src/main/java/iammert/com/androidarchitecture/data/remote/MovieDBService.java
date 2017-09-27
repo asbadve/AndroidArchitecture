@@ -17,4 +17,7 @@ public interface MovieDBService {
     @GET("movie/popular")
     Observable<MoviesResponse> getPopularMoviesListAtPage(@Query("page") int page);
 
+    @GET("movie/now_playing")
+    Observable<MoviesResponse> getNowPlayingMoviesListAtPage(@Query("page") int page);
+
 }

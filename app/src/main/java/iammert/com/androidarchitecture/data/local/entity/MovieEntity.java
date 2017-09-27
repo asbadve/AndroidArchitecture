@@ -42,6 +42,10 @@ public class MovieEntity {
     @SerializedName("original_language")
     private String originalLanguage;
 
+    private boolean isPopular;
+
+    private boolean isNowPlaying;
+
     public int getId() {
         return id;
     }
@@ -120,5 +124,21 @@ public class MovieEntity {
 
     public void setOriginalLanguage(String originalLanguage) {
         this.originalLanguage = originalLanguage;
+    }
+
+    public boolean isPopular() {
+        return isPopular;
+    }
+
+    public void setPopular(boolean popular) {
+        isPopular = popular;
+    }
+
+    public boolean isNowPlaying() {
+        return isNowPlaying;
+    }
+
+    public void setNowPlaying(boolean nowPlaying) {
+        isNowPlaying = nowPlaying;
     }
 }

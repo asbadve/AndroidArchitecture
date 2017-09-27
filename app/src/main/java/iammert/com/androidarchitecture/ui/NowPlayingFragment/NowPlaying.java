@@ -1,4 +1,4 @@
-package iammert.com.androidarchitecture.ui.main;
+package iammert.com.androidarchitecture.ui.NowPlayingFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,21 +16,24 @@ import iammert.com.androidarchitecture.R;
 import iammert.com.androidarchitecture.data.local.entity.MovieEntity;
 import iammert.com.androidarchitecture.databinding.FragmentMovieListBinding;
 import iammert.com.androidarchitecture.ui.detail.MovieDetailActivity;
+import iammert.com.androidarchitecture.ui.main.MovieListAdapter;
+import iammert.com.androidarchitecture.ui.main.MovieListCallback;
 
 /**
  * Created by mertsimsek on 19/05/2017.
  */
 
-public class MovieListFragment extends Fragment implements MovieListCallback {
+public class NowPlaying extends Fragment implements MovieListCallback {
 
     @Inject
-    MovieListViewModel movieListViewModel;
+    NowMovieListViewModel movieListViewModel;
 
     FragmentMovieListBinding binding;
 
-    public static MovieListFragment newInstance(boolean isNowPlaying) {
+    public static NowPlaying newInstance(boolean isNowPlaying) {
         Bundle args = new Bundle();
-        MovieListFragment fragment = new MovieListFragment();
+        args.putBoolean("isNowPlaying", isNowPlaying);
+        NowPlaying fragment = new NowPlaying();
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +57,7 @@ public class MovieListFragment extends Fragment implements MovieListCallback {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         movieListViewModel
-                .getPopularMovies()
+                .getNowPLayingMovies()
                 .observe(this, listResource -> binding.setResource(listResource));
     }
 

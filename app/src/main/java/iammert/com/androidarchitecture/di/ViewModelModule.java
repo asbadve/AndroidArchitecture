@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
+import iammert.com.androidarchitecture.ui.NowPlayingFragment.NowMovieListViewModel;
+import iammert.com.androidarchitecture.ui.PopularFragment.PopularMovieListViewModel;
 import iammert.com.androidarchitecture.ui.detail.MovieDetailViewModel;
 import iammert.com.androidarchitecture.ui.main.MovieListViewModel;
 import iammert.com.androidarchitecture.viewmodel.MovieViewModelFactory;
@@ -24,8 +26,18 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(NowMovieListViewModel.class)
+    abstract ViewModel bindsNowMovieListViewModel(NowMovieListViewModel movieListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PopularMovieListViewModel.class)
+    abstract ViewModel bindsPopularMovieListViewModel(PopularMovieListViewModel movieListViewModel);
+
+    @Binds
+    @IntoMap
     @ViewModelKey(MovieDetailViewModel.class)
-    abstract  ViewModel bindsMovieDetailViewModel(MovieDetailViewModel movieDetailViewModel);
+    abstract ViewModel bindsMovieDetailViewModel(MovieDetailViewModel movieDetailViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindsViewModelFactory(MovieViewModelFactory movieViewModelFactory);
